@@ -1,69 +1,69 @@
 # 🆓 Lucy FreeOTP Gateway
 
-**Абсолютно бесплатный децентрализованный шлюз для рассылки OTP-кодов и системных уведомлений вашим клиентам.** 
-Забудьте про дорогие SMS-рассылки. Сеть **Lucy** использует P2P-маршрутизацию (Mesh) для моментальной доставки кодов авторизации прямо на телефоны пользователей.
+**Absolutely free decentralized gateway for sending OTP codes and system notifications to your clients.**
+Forget about expensive SMS services. The **Lucy** network uses P2P routing (Mesh) for instant delivery of authorization codes directly to users' phones.
 
 ---
 
-## 🌟 Как это работает?
-Вместо того чтобы платить телеком-операторам за каждую SMS, вы отправляете сообщения через нашу децентрализованную сеть. 
-1. **P2P Архитектура:** Сообщения доставляются через сеть распределенных супернод.
-2. **Мгновенно:** Прямое WebSocket-соединение обеспечивает доставку за миллисекунды.
-3. **Безопасно:** Коды приходят клиенту в зашифрованный чат от имени официального системного бота (защита от фишинга).
-4. **Неблокируемо:** Если нет интернета, узлы могут связываться по локальным Mesh-протоколам (Wi-Fi, Bluetooth).
+## 🌟 How it works?
+Instead of paying telecom operators for every SMS, you send messages through our decentralized network.
+1. **P2P Architecture:** Messages are delivered through a network of distributed supernodes.
+2. **Instant:** Direct WebSocket connections ensure delivery in milliseconds.
+3. **Secure:** Codes arrive in an encrypted chat from the official system bot (preventing phishing).
+4. **Unblockable:** If the internet is down, nodes can communicate via local Mesh protocols (Wi-Fi, Bluetooth).
 
 ---
 
-## 📱 Шаг 1. Приложение для пользователей
-Чтобы ваши клиенты могли получать OTP-коды, им необходимо установить мессенджер Lucy.
+## 📱 Step 1. App for Users
+For your clients to receive OTP codes, they need to install the Lucy messenger.
 
-👉 **[СКАЧАТЬ АКТУАЛЬНЫЙ APK (Android)](https://0i2.ru/downloads/lucy.apk)**
-
----
-
-## 🔑 Шаг 2. Получение ключа доступа (API_KEY)
-Мы отказались от скучных регистраций и личных кабинетов! Чтобы получить доступ к API:
-1. Скачайте приложение Lucy по ссылке выше.
-2. Зайдите в **Settings -> Contact Support** (откроется чат с сервером).
-3. Напишите боту команду: `/api_key` (или просто напишите "Дай токен").
-4. Бот моментально сгенерирует для вас уникальный криптографический **JWT-токен**.
+👉 **[DOWNLOAD LATEST APK (Android)](https://0i2.ru/downloads/lucy.apk)**
 
 ---
 
-## 💻 Шаг 3. Запуск своей ноды (lucy-node)
-Для максимальной приватности, безопасности и отказоустойчивости, вы отправляете сообщения не на наши сервера, а на **свою собственную ноду**, которую вы запускаете в своей инфраструктуре.
+## 🔑 Step 2. Get your Access Key (API_KEY)
+We dropped boring registrations and web dashboards! To get API access:
+1. Download the Lucy app from the link above.
+2. Go to **Settings -> Contact Support** (this opens a chat with the server).
+3. Send the command: `/api_key` (or just type "get token").
+4. The bot will instantly generate a unique cryptographic **JWT token** for you.
 
-Исходный код ноды и инструкции по установке через Docker:
-👉 [Перейти в репозиторий lucy-node](https://github.com/casetar/lusy/tree/master/server/lucy-node)
+---
 
-Быстрый запуск в 1 команду (Linux):
+## 💻 Step 3. Run your own Node (lucy-node)
+For maximum privacy, security, and fault tolerance, you don't send messages to our servers. You send them to **your own node**, which you run on your infrastructure.
+
+Node source code and Docker installation instructions:
+👉 [Go to lucy-node repository](https://github.com/casetar/lusy/tree/master/server/lucy-node)
+
+Quick install in 1 command (Linux):
 ```bash
 curl -fsSL https://raw.githubusercontent.com/casetar/lusy/master/server/lucy-node/install.sh | bash
 ```
 
 ---
 
-## 🚀 Шаг 4. Отправка OTP (Интеграция)
-Когда ваша нода `lucy-node` запущена, вы можете отправлять OTP-коды из своего бэкенда с помощью обычного HTTP POST-запроса на локальный порт ноды.
+## 🚀 Step 4. Send OTP (Integration)
+Once your `lucy-node` is running, you can send OTP codes from your backend using a simple HTTP POST request to your node's local port.
 
-Пример на `curl`:
+Example using `curl`:
 ```bash
 curl -X POST http://127.0.0.1:7070/api/otp \
   -H "Content-Type: application/json" \
   -d '{
-    "token": "ВАШ_JWT_ТОКЕН_ИЗ_БОТА",
-    "peerId": "ID_КЛИЕНТА_В_ПРИЛОЖЕНИИ",
-    "text": "Ваш проверочный код: 1234"
+    "token": "YOUR_JWT_TOKEN_FROM_BOT",
+    "peerId": "CLIENT_APP_ID",
+    "text": "Your verification code: 1234"
   }'
 ```
 
-**Формат параметров:**
-- `token`: JWT-токен, который вы получили от бота в шаге 2.
-- `peerId`: Уникальный идентификатор вашего пользователя в сети Lucy (вы можете просить клиента указывать его при регистрации, либо генерировать QR-коды для привязки).
-- `text`: Текст сообщения.
+**Parameters:**
+- `token`: The JWT token you got from the bot in Step 2.
+- `peerId`: The unique identifier of your user in the Lucy network (you can ask clients to provide it during registration, or generate QR codes for linking).
+- `text`: The message text.
 
-### Лимиты
-**Лимитов нет!** Отправляйте столько уведомлений, сколько нужно вашему бизнесу. Вы платите только за электричество вашего собственного сервера.
+### Limits
+**No limits!** Send as many notifications as your business needs. You only pay for the electricity of your own server.
 
 ---
-*© 2026 Lucy P2P Network. Свобода общения без серверов.*
+*© 2026 Lucy P2P Network. Freedom of communication without servers.*
