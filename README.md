@@ -72,6 +72,36 @@ curl -X POST http://127.0.0.1:7070/api/otp \\
   }'
 ```
 
+
+### ✨ NEW: Auto-Generation & Verification (OTP-as-a-Service)
+You don't need a database to store OTP codes! Lucy can generate and verify them for you.
+
+**1. Ask Lucy to generate and send a code:**
+Simply omit the `code` parameter. Lucy will generate a random 4-digit code, store it for **5 minutes**, and send it to the user.
+```bash
+curl -X POST http://127.0.0.1:7070/api/otp \
+  -H "Content-Type: application/json" \
+  -d '{
+    "type": "otp",
+    "to_peer_id": "CLIENT_APP_ID",
+    "api_key": "YOUR_JWT_TOKEN_FROM_BOT"
+  }'
+```
+
+**2. Verify the code the user entered:**
+When the user enters the code on your app/website, ask Lucy if it's correct.
+```bash
+curl -X POST http://127.0.0.1:7070/api/verify \
+  -H "Content-Type: application/json" \
+  -d '{
+    "to_peer_id": "CLIENT_APP_ID",
+    "code": "5678",
+    "api_key": "YOUR_JWT_TOKEN_FROM_BOT"
+  }'
+```
+Lucy will respond with `{"ok": true, "valid": true}` if correct, or `{"valid": false, "reason": "expired/wrong_code"}`.
+Codes are automatically deleted from Lucy's memory after 5 minutes or immediately after successful verification to prevent memory leaks.
+
 ### Option B: Send a Business Status
 Use `type: "status"`. Perfect for order updates, appointment reminders, etc.
 
