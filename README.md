@@ -24,7 +24,7 @@ For your clients to receive OTP codes, they need to install the Lucy messenger.
 ## 🔑 Step 2. Get your Access Key (API_KEY)
 We dropped boring registrations and web dashboards! To get API access:
 1. Download the Lucy app from the link above.
-2. Go to **Settings -> Contact Support** (this opens a chat with the server).
+2. Go to **Profile -> About -> Contact Support** (this opens a chat with the server).
 3. Send the command: `/api_key` (or just type "get token").
 4. The bot will instantly generate a unique cryptographic **JWT token** for you.
 
