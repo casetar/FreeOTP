@@ -77,6 +77,10 @@ curl -X POST http://127.0.0.1:7070/api/otp \\
   }'
 ```
 
+**⚠️ Important Note about IP Address (`127.0.0.1`):**
+- Use `127.0.0.1` (localhost) **only** if your backend (website/CRM) is running on the **same server** as `lucy-node`.
+- If you are sending requests from an Android/iOS app or a different external server, replace `127.0.0.1` with the **Public IP Address** of your node's server and ensure port `7070` is open in your firewall.
+
 **Parameters:**
 - `type`: Either `"otp"` or `"status"`.
 - `api_key`: The JWT token you got from the bot in Step 2.
