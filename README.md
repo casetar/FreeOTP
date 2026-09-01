@@ -43,24 +43,45 @@ curl -fsSL https://raw.githubusercontent.com/casetar/lusy/master/server/lucy-nod
 
 ---
 
-## 🚀 Step 4. Send OTP (Integration)
-Once your `lucy-node` is running, you can send OTP codes from your backend using a simple HTTP POST request to your node's local port.
+## 🚀 Step 4. Send Notifications (Integration)
+Once your `lucy-node` is running, you can send notifications from your backend using a simple HTTP POST request to your node's local port.
 
-Example using `curl`:
+You have two ways to send notifications: **OTP Codes** or **Business Statuses**.
+
+### Option A: Send simple OTP Code
+Use `type: "otp"`. You only need to pass the code, and the app will format it automatically with a lock icon.
+
 ```bash
-curl -X POST http://127.0.0.1:7070/api/otp \
-  -H "Content-Type: application/json" \
+curl -X POST http://127.0.0.1:7070/api/otp \\
+  -H "Content-Type: application/json" \\
   -d '{
-    "token": "YOUR_JWT_TOKEN_FROM_BOT",
-    "peerId": "CLIENT_APP_ID",
-    "text": "Your verification code: 1234"
+    "type": "otp",
+    "to_peer_id": "CLIENT_APP_ID",
+    "code": "1234",
+    "api_key": "YOUR_JWT_TOKEN_FROM_BOT"
+  }'
+```
+
+### Option B: Send a Business Status
+Use `type: "status"`. Perfect for order updates, appointment reminders, etc.
+
+```bash
+curl -X POST http://127.0.0.1:7070/api/otp \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "type": "status",
+    "to_peer_id": "CLIENT_APP_ID",
+    "sender_name": "Kedr",
+    "text": "Your order #832 is packed and ready!",
+    "api_key": "YOUR_JWT_TOKEN_FROM_BOT"
   }'
 ```
 
 **Parameters:**
-- `token`: The JWT token you got from the bot in Step 2.
-- `peerId`: The unique identifier of your user in the Lucy network (you can ask clients to provide it during registration, or generate QR codes for linking).
-- `text`: The message text.
+- `type`: Either `"otp"` or `"status"`.
+- `api_key`: The JWT token you got from the bot in Step 2.
+- `to_peer_id`: The unique identifier of your user in the Lucy network (you can ask clients to provide it during registration).
+- `code` / `text`: The content of your message.
 
 ### Limits
 **No limits!** Send as many notifications as your business needs. You only pay for the electricity of your own server.
