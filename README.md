@@ -30,6 +30,16 @@ We dropped boring registrations and web dashboards! To get API access:
 
 ---
 
+
+## 🔄 Architecture & Validation Flow (How it works under the hood)
+**Important:** Lucy is only a transport layer (like an SMS provider). Lucy **does not** generate or validate OTP codes. Validation happens entirely on your backend.
+
+1. **Generation:** Your backend generates a random OTP code (e.g., `8899`) and stores it in your database (Redis/Postgres) with a short TTL (e.g., 5 minutes) associated with the user's session.
+2. **Dispatch:** Your backend sends an HTTP POST request to the Lucy Node with this code.
+3. **Delivery:** Lucy securely delivers the message to the user's app via P2P.
+4. **Input:** The user reads the code and enters it into your website or app.
+5. **Validation:** Your app sends the entered code back to *your backend*. Your backend compares the entered code against the one stored in your database. If it matches, you authorize the user.
+
 ## 💻 Step 3. Run your own Node (lucy-node)
 For maximum privacy, security, and fault tolerance, you don't send messages to our servers. You send them to **your own node**, which you run on your infrastructure.
 
